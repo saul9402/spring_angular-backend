@@ -53,6 +53,8 @@ public class Cliente implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@NotNull(message = "No puede estar vacío")
 	private Date createAt;
+	
+	private String foto;
 
 //	@PrePersist
 //	public void prePersist() {

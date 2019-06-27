@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost/db_springboot_backend?serverTimezone=UTC
+    url: jdbc:mysql://localhost/db_springboot_backend?useSSL=false&serverTimezone=America/Mexico_City
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -8,9 +8,13 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
       ddl-auto: create-drop
+  jackson:
+    time-zone: America/Mexico_City
+    locale: es_MX
 logging:
   level:
     org:
       hibernate:
         SQL: debug 
+
       

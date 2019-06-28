@@ -5,9 +5,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,6 +18,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,9 +32,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "clientes")
 public class Cliente implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -46,15 +48,20 @@ public class Cliente implements Serializable {
 
 	@NotEmpty(message = "No puede estar vacío")
 	@Email(message = "No es una direccion de correo bien formada")
-//	@Column(nullable = false, unique = true)
-	@Column(nullable = false, unique = false)
+	@Column(nullable = false, unique = true)
 	private String email;
 
 	@Temporal(TemporalType.DATE)
 	@NotNull(message = "No puede estar vacío")
 	private Date createAt;
-	
+
 	private String foto;
+
+	@NotNull(message = "La region no puede ser vacía")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "region_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	private Region region;
 
 //	@PrePersist
 //	public void prePersist() {

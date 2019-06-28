@@ -45,7 +45,7 @@ public class Usuario implements Serializable {
 	@JoinTable(name = "usuarios_roles",
 	joinColumns = @JoinColumn(name = "usuario_id"),
 	inverseJoinColumns = @JoinColumn(name = "role_id"),
-	uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario_id", "role_id" })})
+	uniqueConstraints = {@UniqueConstraint(columnNames = { "usuario_id", "role_id" })})
 	private List<Role> roles;
 
 }

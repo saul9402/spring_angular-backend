@@ -28,7 +28,7 @@ public class Role implements Serializable{
 	private Long id;
 	
 	@Column(unique = true, length = 20)
-	private String mombre;
+	private String nombre;
 	
 	
 

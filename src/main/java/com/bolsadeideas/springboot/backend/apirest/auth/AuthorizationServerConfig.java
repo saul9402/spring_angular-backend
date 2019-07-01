@@ -1,5 +1,7 @@
 package com.bolsadeideas.springboot.backend.apirest.auth;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
@@ -24,6 +27,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	@Qualifier("authenticationManager")
 	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private InfoAdicionalToken infoAdicionalToken;
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
@@ -68,10 +74,15 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 
+		// con esto enlazas la información que trae el token por defecto y la
+		// información adicional que quieres agregar
+		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(infoAdicionalToken, accessTokenConverter()));
+
 		endpoints.authenticationManager(authenticationManager).tokenStore(tokenStore())
 				// se encarga de traducir los datos del token y tambien de saber si es válido o
 				// no
-				.accessTokenConverter(accessTokenConverter());
+				.accessTokenConverter(accessTokenConverter()).tokenEnhancer(tokenEnhancerChain);
 	}
 
 	// esta parte es opcional, puedes o no ponerla
@@ -83,6 +94,23 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+		/*
+		 * Se agrega una llave propia, por defecto si no se asigna el api asigna una
+		 * llave random
+		 */
+		/* jwtAccessTokenConverter.setSigningKey(JwtConfig.LLAVE_SECRETA); */
+
+		/**
+		 * Comando para generar llave privada y llave publica con Openssl 1.- openssl
+		 * genrsa -out jwt.pem Comando para ver la llave privada 1.- openssl rsa -in
+		 * jwt.pem Comando para ver la llave publica 1.- openssl rsa -in jwt.pem -pubout
+		 */
+
+		/* El que firma es con el metodo signin key */
+		jwtAccessTokenConverter.setSigningKey(JwtConfig.RSA_PRIVADA);
+
+		/* El que verifica es con el metodo verfiier */
+		jwtAccessTokenConverter.setVerifierKey(JwtConfig.RSA_PUBLICA);
 		return jwtAccessTokenConverter;
 	}
 

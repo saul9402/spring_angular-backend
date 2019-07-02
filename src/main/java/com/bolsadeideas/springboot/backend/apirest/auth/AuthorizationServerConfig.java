@@ -17,6 +17,12 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+/**
+ * Ambas anotaciones son importantes para que funcione la configuración
+ * 
+ * @author Saul Avila
+ *
+ */
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -54,20 +60,21 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				// das los permisos que tendra la app, en este caso ambos
 				.scopes("read", "write")
 				/*
-				 * el tipo de autorizacion; como se va a intercambiar el token basicamente hay
+				 * el tipo de autorizacion; como se va a intercambiar el token, básicamente hay
 				 * tres tipos: password, usuario y contraseña del cliente que se va a conectar y
 				 * de la aplicacion misma; codigo de autorizacion con este se entrega un codigo
-				 * de autorizacion por el backend y ese es el que recibe la aplicaicon para
+				 * de autorizacion por el backend y ese es el que recibe la aplicación para
 				 * logear; implicit, usuario y contraseña es como el primero pero en este no
-				 * pides el usuario y contraseña de la aplicacion sino solo del usuario.
+				 * pides el usuario y contraseña de la aplicacion sino solo del usuario que se
+				 * va a logear.
 				 * 
 				 * El refresh_token permite obtener un token de acceso renovado para poder
-				 * seguir en la aplicacion sin tener que iniciar sesion de nuevo
+				 * seguir en la aplicacion sin tener que iniciar sesion de nuevo.
 				 */
 				.authorizedGrantTypes("password", "refresh_token")
-				// el tiempo en el que caduca el token, está en segundos
+				// el tiempo en el que caduca el token, está en segundos (3600s = 1h)
 				.accessTokenValiditySeconds(3600)
-				// la duracion del token renovado
+				// la duracion del token renovado (3600s = 1h)
 				.refreshTokenValiditySeconds(3600);
 	}
 
@@ -109,7 +116,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		/* El que firma es con el metodo signin key */
 		jwtAccessTokenConverter.setSigningKey(JwtConfig.RSA_PRIVADA);
 
-		/* El que verifica es con el metodo verfiier */
+		/* El que verifica es con el metodo verfier */
 		jwtAccessTokenConverter.setVerifierKey(JwtConfig.RSA_PUBLICA);
 		return jwtAccessTokenConverter;
 	}

@@ -13,6 +13,15 @@ import org.springframework.stereotype.Component;
 import com.bolsadeideas.springboot.backend.apirest.models.entity.Usuario;
 import com.bolsadeideas.springboot.backend.apirest.models.services.IUsuarioService;
 
+/**
+ * Aqui puede definir información adicional para el token, prácticamente lo que
+ * quieras, nombre de usuario, email, numero de contacto, apellido, nombre, lo
+ * que se te ocurra. Del objeto OAuth2Authentication puedes obtener datos del
+ * usuario para realizar consultas a BD como su username o otros detalles.
+ * 
+ * @author Saul Avila
+ *
+ */
 @Component
 public class InfoAdicionalToken implements TokenEnhancer {
 

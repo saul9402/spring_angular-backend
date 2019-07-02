@@ -15,11 +15,24 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+/**
+ * Ambas anotaciones son importantes para que funcione la configuración
+ * 
+ * @author Saul Avila
+ *
+ */
 @Configuration
 @EnableResourceServer
 //aqui se configuran las reglas de seguridad de los endpoint a quien se le va  dar permisos para hacer ciertas cosas
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
+	/**
+	 * Aqui ouedes indicar qué rutas están protegidas y cuales son publicas... Como
+	 * para el ejemplo se estan usando anotaciones en cada metodo para definir su
+	 * nivel de seguridad aqui sólo se definen las rutas que son publicas con
+	 * permitAll() y se indica, también que todo lo que no este especificado ahi
+	 * dentro debe llevar autenticación.
+	 */
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -44,7 +57,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	@Bean
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
+		// También puede poner un "*" para dar permiso a todos
 		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		// También puedes dar permiso a todos los verbos con "*"
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowCredentials(true);
 		configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization"));

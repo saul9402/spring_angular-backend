@@ -42,9 +42,9 @@ public class Usuario implements Serializable {
 	private boolean enabled;
 
 	private String nombre;
-	
+
 	private String apellido;
-	
+
 	@Column(unique = true)
 	private String email;
 

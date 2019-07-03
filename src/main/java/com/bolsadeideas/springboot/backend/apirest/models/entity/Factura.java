@@ -19,6 +19,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -41,7 +43,6 @@ public class Factura implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date createAt;
 
-	@ManyToOne(fetch = FetchType.LAZY)
 	/*
 	 * es posible especificar el nombre de la llave foranea en la tabla factura,
 	 * sólo habría que poner en esta clase la anotacion @JoinColumn y especificar el
@@ -53,9 +54,10 @@ public class Factura implements Serializable {
 	 * relación, así hibernate puede generar automaticamente la columna de la llave
 	 * foránea.
 	 */
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({ "facturas", "hibernateLazyInitializer", "handler" })
 	private Cliente cliente;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	/*
 	 * En este caso si se debe poner el @JoinColumn puesto que es una relacion
 	 * unidireccional y la entidad ItemFactura no tiene conocimiento de la
@@ -63,7 +65,9 @@ public class Factura implements Serializable {
 	 * relación y es el propietario de la misma, por ello se debe indicar aqui la
 	 * llave foránea que ira en la otra tabla.
 	 */
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "factura_id")
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private List<ItemFactura> items;
 
 	public Factura() {

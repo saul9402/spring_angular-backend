@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +32,6 @@ public class ItemFactura implements Serializable {
 
 	private Integer cantidad;
 
-	@ManyToOne(fetch = FetchType.LAZY)
 	/*
 	 * Por defecto se creara la columna de la llave foránea con el nombre de la
 	 * propiedad producto puesto que ItemFactura es el dueño de la relación pero
@@ -39,6 +40,8 @@ public class ItemFactura implements Serializable {
 	 * sabe sobre dicha relación.
 	 */
 	@JoinColumn(name = "producto_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Producto producto;
 
 	public Double getImporte() {

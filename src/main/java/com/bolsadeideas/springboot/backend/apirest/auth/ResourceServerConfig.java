@@ -60,7 +60,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		// También puede poner un "*" para dar permiso a todos
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "*"));
 		// También puedes dar permiso a todos los verbos con "*"
 		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 		configuration.setAllowCredentials(true);

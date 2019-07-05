@@ -21,7 +21,7 @@ import com.bolsadeideas.springboot.backend.apirest.models.services.IClienteServi
 
 @RestController
 @RequestMapping(value = "/api")
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200", "*"})
 public class FacturaRestController {
 
 	@Autowired

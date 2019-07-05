@@ -36,7 +36,7 @@ import com.bolsadeideas.springboot.backend.apirest.models.entity.Region;
 import com.bolsadeideas.springboot.backend.apirest.models.services.IClienteService;
 import com.bolsadeideas.springboot.backend.apirest.models.services.IUploadFileService;
 
-@CrossOrigin(origins = { "http://localhost:4200" })
+@CrossOrigin(origins = { "http://localhost:4200", "*" })
 @RestController
 @RequestMapping(value = "/api")
 public class ClienteRestController {

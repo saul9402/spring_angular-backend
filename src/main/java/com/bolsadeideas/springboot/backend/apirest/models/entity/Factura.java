@@ -67,7 +67,7 @@ public class Factura implements Serializable {
 	 */
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "factura_id")
-	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
+	@JsonIgnoreProperties(value = { "hibernateLazyInitializer", "handler" }, allowSetters = true)
 	private List<ItemFactura> items;
 
 	public Factura() {
